@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#d0f8bbd0"
+    tools:context="com.romero.parcial1v5snrm.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/contacts_btn"
+            android:onClick="contactsBtnAction"
+            android:background="@color/colorAccent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Contacts" />
+
+        <Button
+            android:onClick="favouritesBtnAction"
+            android:id="@+id/favorites_btn"
+            android:layout_width="0dp"
+            android:background="@color/colorPrimaryDark"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Favorites" />
+        <Button
+
+            android:id="@+id/search_btn"
+            android:layout_width="0dp"
+            android:background="@color/colorPrimaryDark"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Search" />
+
+    </LinearLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:id="@+id/recycler">
+
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>
