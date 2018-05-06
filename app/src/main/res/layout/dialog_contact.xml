@@ -31,28 +31,6 @@
             android:textColor="@android:color/white"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"/>
-        <Button
-            android:padding="10dp"
-            android:id="@+id/dialog_btn_call"
-            android:textAlignment="textStart"
-            android:drawablePadding="20dp"
-            android:drawableLeft="@drawable/phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:text="Mobile Call"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="start" />
-        <Button
-            android:padding="10dp"
-            android:id="@+id/dialog_btn_msg"
-            android:textAlignment="textStart"
-            android:drawablePadding="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:text="Nojequehaceaun"
-            android:layout_gravity="start" />
 
     </LinearLayout>
 
