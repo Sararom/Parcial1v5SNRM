@@ -27,7 +27,6 @@
             android:contentDescription="contact pp"
             android:layout_gravity="center_horizontal"/>
         <EditText
-            android:textColor="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/contact_name_send"
@@ -35,7 +34,6 @@
             android:inputType="text" />
 
         <EditText
-            android:textColor="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/contact_phone_send"

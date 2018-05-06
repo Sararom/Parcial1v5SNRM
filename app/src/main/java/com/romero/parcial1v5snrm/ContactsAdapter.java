@@ -1,12 +1,18 @@
 package com.romero.parcial1v5snrm;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +31,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     Dialog myDialog;
     private Context context;
 
-    public ContactsAdapter(ArrayList<Contacts> contacts, Context context){
+    public ContactsAdapter(ArrayList<Contacts> contacts, Context context) {
         this.context = context;
         this.contacts = contacts;
     }
@@ -38,11 +44,11 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
         //Inicializacion del dialogo
 
-        myDialog= new Dialog(context);
+        myDialog = new Dialog(context);
         myDialog.setContentView(R.layout.dialog_contact);
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        vHolder.item_contact.setOnClickListener(new View.OnClickListener(){
+        vHolder.item_contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -53,11 +59,10 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
                 dialog_phone_tv.setText(contacts.get(vHolder.getAdapterPosition()).getPhone());
                 dialog_img_iv.setImageResource(contacts.get(vHolder.getAdapterPosition()).getPhoto());
 
-                Toast.makeText(context,"Test Click "+String.valueOf(vHolder.getAdapterPosition()),Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Test Click " + String.valueOf(vHolder.getAdapterPosition()), Toast.LENGTH_SHORT).show();
                 myDialog.show();
             }
         });
-
 
 
         return (vHolder);
@@ -71,9 +76,9 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         holder.img.setImageResource(contacts.get(position).getPhoto());
 
 
-        if(contacts.get(position).isFav()){
+        if (contacts.get(position).isFav()) {
             holder.favBtn.setImageResource(R.drawable.likefull);
-        }else{
+        } else {
             holder.favBtn.setImageResource(R.drawable.likeempty);
         }
 
@@ -94,6 +99,29 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
                 }
             }
         });
+
+        //Darle funcionalidad al boton de llamar
+        holder.callBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String number = contacts.get(position).getPhone();
+
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse(("tel:" + number)));
+
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -109,6 +137,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         private TextView tv_phone;
         private ImageView img;
         private ImageButton favBtn;
+        private ImageButton callBtn;
 
         public ContactViewHolder(View itemView) {
             super(itemView);
@@ -119,6 +148,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
             tv_phone = (TextView) itemView.findViewById(R.id.phone_number);
             img = (ImageView) itemView.findViewById(R.id.img_contact);
             favBtn = (ImageButton) itemView.findViewById(R.id.favBtn);
+            callBtn = (ImageButton) itemView.findViewById(R.id.callBtn);
 
         }
     }

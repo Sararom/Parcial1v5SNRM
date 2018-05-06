@@ -62,12 +62,12 @@
                 android:src="@drawable/likeempty"
                 />
             <ImageButton
+                android:id="@+id/callBtn"
                 android:background="@android:color/transparent"
                 android:layout_gravity="center_vertical"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/phone_plain"
-                />
+                android:src="@drawable/phone_plain" />
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>
