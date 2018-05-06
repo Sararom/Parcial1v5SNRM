@@ -1,8 +1,10 @@
 package com.romero.parcial1v5snrm;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -30,6 +32,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     private static boolean fav = false;
     Dialog myDialog;
     private Context context;
+    private int STORAGE_PERMISSION_CODE=2;
 
     public ContactsAdapter(ArrayList<Contacts> contacts, Context context) {
         this.context = context;
@@ -104,17 +107,40 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         holder.callBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String number = contacts.get(position).getPhone();
-
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse(("tel:" + number)));
-
+                //Primero se asegura de que tenga los permisos para llamar y si no los tiene, los pide
                 if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    return;
+                    
+                    requestStoragePermission();
+                }else {
+                    String number = contacts.get(position).getPhone();
+                    Intent intent = new Intent(Intent.ACTION_CALL);
+                    intent.setData(Uri.parse(("tel:" + number)));
+                    context.startActivity(intent);
                 }
-                context.startActivity(intent);
+
             }
         });
+    }
+
+    private void requestStoragePermission(){
+        if(ActivityCompat.shouldShowRequestPermissionRationale((MainActivity)context,Manifest.permission.CALL_PHONE)){
+            new AlertDialog.Builder((MainActivity)context)
+            .setTitle("Permission needed")
+            .setMessage("This permission is needed to star a call")
+            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ActivityCompat.requestPermissions((MainActivity)context,new String[]{Manifest.permission.CALL_PHONE},STORAGE_PERMISSION_CODE);
+                }
+            }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).create().show();
+        }else{
+            ActivityCompat.requestPermissions((MainActivity)context,new String[]{Manifest.permission.CALL_PHONE},STORAGE_PERMISSION_CODE);
+        }
     }
 
     @Override
