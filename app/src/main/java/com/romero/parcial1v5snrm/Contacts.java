@@ -12,6 +12,7 @@ public class Contacts {
         this.photo = photo;
         this.fav = fav;
     }
+    public Contacts(){}
 
     //getters and setters
 

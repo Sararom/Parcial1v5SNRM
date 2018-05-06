@@ -58,6 +58,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
             }
         });
 
+
+
         return (vHolder);
     }
 
