@@ -126,7 +126,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         if(ActivityCompat.shouldShowRequestPermissionRationale((MainActivity)context,Manifest.permission.CALL_PHONE)){
             new AlertDialog.Builder((MainActivity)context)
             .setTitle("Permission needed")
-            .setMessage("This permission is needed to star a call")
+            .setMessage("This permission is needed to start a call")
             .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

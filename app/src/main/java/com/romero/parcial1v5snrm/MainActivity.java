@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     LinearLayoutManager lManager;
     Button contactBtn, favoritesBtn, searchBtn;
     Dialog myDialog;
-    private int count=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +59,13 @@ public class MainActivity extends AppCompatActivity {
         lManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(lManager);
 
-        //fillContacts();
-
-        adapter =new ContactsAdapter(favorites,this);
-        recyclerView.setAdapter(adapter);
-
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            requestStoragePermission();
+        }else {
+            fillContacts();
+            adapter =new ContactsAdapter(contacts,this);
+            recyclerView.setAdapter(adapter);
+        }
         //dialog
         myDialog= new Dialog(MainActivity.this);
         myDialog.setContentView(R.layout.input);
@@ -131,22 +132,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void contactsBtnAction(View v){
-        //CAMBIO DE PANTALLA PERO PRIMERO SE VERIFICA SI TIENE PERMISOS PARA ACCEDER A LOS CONTACTOS
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            requestStoragePermission();
-        }else {
-            //Se
-            if (count==0){
-            fillContacts();
-            count++;}
-            adapter.setFalse();
-            contactBtn.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            favoritesBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-            searchBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-            adapter = new ContactsAdapter(contacts,v.getContext());
-            recyclerView.setAdapter(adapter);
-        }
-
+        adapter.setFalse();
+        contactBtn.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        favoritesBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        searchBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        adapter = new ContactsAdapter(contacts,v.getContext());
+        recyclerView.setAdapter(adapter);
     }
     public void favouritesBtnAction(View v){
         adapter.setTrue();
@@ -183,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
         if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_CONTACTS)){
             new AlertDialog.Builder(this)
                     .setTitle("Permission needed")
-                    .setMessage("This permission is needed to star a call")
+                    .setMessage("This permission is needed to read your contacts")
                     .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -203,7 +194,11 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == STORAGE_PERMISSION_CODE)  {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                fillContacts();
+                adapter =new ContactsAdapter(contacts,this);
+                recyclerView.setAdapter(adapter);
                 Toast.makeText(this, "Permission GRANTED", Toast.LENGTH_SHORT).show();
+
             } else {
                 Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show();
             }
