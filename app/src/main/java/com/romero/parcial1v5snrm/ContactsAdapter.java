@@ -182,4 +182,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         return fav;
     }
 
+    public void filterList(ArrayList<Contacts> filteredList) {
+        contacts = filteredList;
+        notifyDataSetChanged();
+    }
 }

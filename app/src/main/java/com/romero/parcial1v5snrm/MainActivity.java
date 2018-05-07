@@ -3,25 +3,21 @@ package com.romero.parcial1v5snrm;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,10 +31,11 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     EditText nameInput;
     EditText phoneInput;
+    EditText searchBar;
     ContactsAdapter adapter;
     ArrayList<Contacts> contacts,favorites;
     LinearLayoutManager lManager;
-    Button contactBtn, favoritesBtn, searchBtn;
+    Button contactBtn, favoritesBtn;
     Dialog myDialog;
 
     @Override
@@ -51,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
         contactBtn=findViewById(R.id.contacts_btn);
         favoritesBtn=findViewById(R.id.favorites_btn);
-        searchBtn=findViewById(R.id.search_btn);
 
         recyclerView=findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
@@ -84,6 +80,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        searchBar = (EditText) findViewById(R.id.search_bar);
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                searchedForContacts(s.toString());
+            }
+        });
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void searchedForContacts(String text){
+        ArrayList<Contacts> filteredList = new ArrayList<>();
+        for(Contacts item : contacts){
+            if(item.getName().toLowerCase().contains(text.toLowerCase())){
+                filteredList.add(item);
+            }
+        }
+        adapter.filterList(filteredList);
+    }
+    private void searchedForFavs(String text){
+        ArrayList<Contacts> filteredList = new ArrayList<>();
+        for(Contacts item : favorites){
+            if(item.getName().toLowerCase().contains(text.toLowerCase())){
+                filteredList.add(item);
+            }
+        }
+
+        adapter.filterList(filteredList);
     }
 
     private void addContact(Contacts contactoRe) {
@@ -101,12 +129,9 @@ public class MainActivity extends AppCompatActivity {
                 contactCase.setFav(false);
                 contactCase.setPhoto(R.drawable.contact_pp_pop);
                 contacts.add(contactCase);
-                //adapter.notifyDataSetChanged();
 
             }
             phones.close();
-        //contacts.add(new Contacts("Desgraciado 1","22222222",R.drawable.contact_pp_pop,false));
-
     }
 
     public void addFavourite(Contacts contact) {
@@ -135,17 +160,38 @@ public class MainActivity extends AppCompatActivity {
         adapter.setFalse();
         contactBtn.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         favoritesBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-        searchBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         adapter = new ContactsAdapter(contacts,v.getContext());
         recyclerView.setAdapter(adapter);
+        EditText filter = (EditText) findViewById(R.id.search_bar);
+        filter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void afterTextChanged(Editable editable) {
+                searchedForContacts(editable.toString());
+            }
+        });
     }
     public void favouritesBtnAction(View v){
         adapter.setTrue();
         favoritesBtn.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         contactBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-        searchBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         adapter = new ContactsAdapter(favorites,v.getContext());
         recyclerView.setAdapter(adapter);
+
+        EditText filter = (EditText) findViewById(R.id.search_bar);
+        filter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void afterTextChanged(Editable editable) {
+                searchedForFavs(editable.toString());
+            }
+        });
     }
 
     //Esta clase maneja los datos del dialogo creado
@@ -159,7 +205,8 @@ public class MainActivity extends AppCompatActivity {
         contactoRecibido.setFav(false);
 
         addContact(contactoRecibido);
-        //Se tiene que el adapter no este en fevoritos pues solo nitifica cambios si se esta en la ventana de contactos
+
+        //Se tiene que el adapter no este en fevoritos pues solo notifica cambios si se esta en la ventana de contactos
         if(!adapter.isOnFavS()){
             adapter.notifyItemInserted(0);
             recyclerView.scrollToPosition(0);
