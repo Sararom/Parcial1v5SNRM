@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:background="#232323"
         android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:id="@+id/layout">
 
         <TextView
             android:id="@+id/dialog_name_id"
@@ -32,7 +33,30 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"/>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageButton
+                android:id="@+id/share_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/share"
+                android:background="@android:color/transparent"
+                android:layout_margin="10dp"/>
+
+            <ImageButton
+                android:id="@+id/call_dialog_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/phone"
+                android:background="@android:color/transparent"
+                android:layout_margin="10dp"/>
+        </LinearLayout>
+
+
     </LinearLayout>
+
+
 
     <ImageView
         android:id="@+id/dialog_img_id"

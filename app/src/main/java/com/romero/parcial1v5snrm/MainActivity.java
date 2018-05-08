@@ -120,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void fillContacts() {
+
+            String same="";
             Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null,null, null);
             while (phones.moveToNext())
             {
@@ -128,7 +130,10 @@ public class MainActivity extends AppCompatActivity {
                 contactCase.setPhone(phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
                 contactCase.setFav(false);
                 contactCase.setPhoto(R.drawable.contact_pp_pop);
-                contacts.add(contactCase);
+                if(!same.equals(phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)))){
+                    contacts.add(contactCase);
+                }
+                same=phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
 
             }
             phones.close();
@@ -158,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void contactsBtnAction(View v){
         adapter.setFalse();
+        searchBar.setText("");
         contactBtn.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         favoritesBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         adapter = new ContactsAdapter(contacts,v.getContext());
@@ -176,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void favouritesBtnAction(View v){
         adapter.setTrue();
+        searchBar.setText("");
         favoritesBtn.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         contactBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         adapter = new ContactsAdapter(favorites,v.getContext());

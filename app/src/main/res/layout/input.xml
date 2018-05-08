@@ -7,7 +7,7 @@
     android:layout_gravity="center"
     android:elevation="7dp"
     android:gravity="center"
-    android:background="#ffcdd2"
+    android:background="#d9fff7ff"
     android:padding="30dp"
     >
     <LinearLayout

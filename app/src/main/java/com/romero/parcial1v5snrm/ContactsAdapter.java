@@ -30,9 +30,11 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
     private ArrayList<Contacts> contacts;
     private static boolean fav = false;
-    Dialog myDialog;
+    private Dialog myDialog;
     private Context context;
     private int STORAGE_PERMISSION_CODE=2;
+    private ImageButton dialog_share_btn;
+    private ImageButton dialog_call_btn;
 
     public ContactsAdapter(ArrayList<Contacts> contacts, Context context) {
         this.context = context;
@@ -58,13 +60,49 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
                 TextView dialog_name_tv = (TextView) myDialog.findViewById(R.id.dialog_name_id);
                 TextView dialog_phone_tv = (TextView) myDialog.findViewById(R.id.dialog_phone_id);
                 ImageView dialog_img_iv = (ImageView) myDialog.findViewById(R.id.dialog_img_id);
+
                 dialog_name_tv.setText(contacts.get(vHolder.getAdapterPosition()).getName());
                 dialog_phone_tv.setText(contacts.get(vHolder.getAdapterPosition()).getPhone());
                 dialog_img_iv.setImageResource(contacts.get(vHolder.getAdapterPosition()).getPhoto());
-
-                Toast.makeText(context, "Test Click " + String.valueOf(vHolder.getAdapterPosition()), Toast.LENGTH_SHORT).show();
                 myDialog.show();
+
+                ImageButton dialog_share_btn = (ImageButton) myDialog.findViewById(R.id.share_btn);
+                ImageButton dialog_call_btn = (ImageButton) myDialog.findViewById(R.id.call_dialog_btn);
+
+                dialog_share_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent sendIntent = null, chooser =null;
+                        sendIntent= new Intent(Intent.ACTION_SEND);
+                        sendIntent.setType("text/*");
+                        sendIntent.putExtra(Intent.EXTRA_TEXT,
+                                "Nombre: "+(contacts.get(vHolder.getAdapterPosition()).getName())+
+                                        "\nTeléfono: "+(contacts.get(vHolder.getAdapterPosition()).getPhone()));
+
+                        chooser=Intent.createChooser(sendIntent,"Share Contact");
+                        context.startActivity(chooser);
+
+                    }
+                });
+
+                dialog_call_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Primero se asegura de que tenga los permisos para llamar y si no los tiene, los pide
+                        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+
+                            requestStoragePermission();
+                        }else {
+                            String number = contacts.get(vHolder.getAdapterPosition()).getPhone();
+                            Intent intent = new Intent(Intent.ACTION_CALL);
+                            intent.setData(Uri.parse(("tel:" + number)));
+                            context.startActivity(intent);
+                        }
+                    }
+                });
             }
+
         });
 
 
@@ -121,6 +159,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
             }
         });
     }
+
+
 
     private void requestStoragePermission(){
         if(ActivityCompat.shouldShowRequestPermissionRationale((MainActivity)context,Manifest.permission.CALL_PHONE)){
@@ -186,4 +226,5 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         contacts = filteredList;
         notifyDataSetChanged();
     }
+
 }
