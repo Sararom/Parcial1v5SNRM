@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -13,31 +14,32 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="20sp"
-            android:text="Add new contact information"/>
+            android:text="@string/information_add_title"/>
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/contact_pp_pop"
-            android:contentDescription="contact pp"
+            android:contentDescription="@string/description_add_pp"
             android:layout_gravity="center_horizontal"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/contact_name_send"
-            android:hint="Contact Name"
+            android:hint="@string/contact_name_add"
             android:inputType="text" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/contact_phone_send"
-            android:hint="Contact Phone"
+            android:hint="@string/contact_phone_add"
             android:inputType="phone" />
         <Button
             android:id="@+id/send_button"
@@ -45,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Add"/>
+            android:text="@string/add_btn"/>
     </LinearLayout>
 
 </RelativeLayout>

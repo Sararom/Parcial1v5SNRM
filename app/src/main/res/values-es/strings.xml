@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Administrador de Contactos</string>
+    <string name="information_add_title">Añadir nueva información de contacto</string>
+    <string name="description_add_pp">contacto pp</string>
+    <string name="contact_name_add"> Nombre de Contacto</string>
+    <string name="contact_phone_add">Teléfono</string>
+    <string name="contacts_btn_main">Contactos</string>
+    <string name="favorites_btn_main">Favoritos</string>
+    <string name="search_btn_main">Buscar</string>
+    <string name="contact_name_info_dialog">Nombre de Contacto</string>
+    <string name="phone_number_info_dialog">Teléfono</string>
+    <string name="share_btn_img_desc">botón_compartir</string>
+    <string name="phone_btn_desc">botón_teléfono</string>
+    <string name="pp_img_desc">pp desc</string>
+    <string name="add_btn">Añadir</string>
+    <string name="pp_default_dsc">pp_default</string>
+    <string name="contact_name_rv">Nombre de Contacto</string>
+    <string name="phone_number_rv">Teléfono</string>
+    <string name="like_btn_rv">like btn</string>
+    <string name="call_btn_dsc">descripcion boton llamar</string>
+    <string name="granted">Permiso Concedido</string>
+    <string name="denied">Permiso Denegado</string>
+    <string name="p_needed">Permiso Necesario</string>
+</resources>

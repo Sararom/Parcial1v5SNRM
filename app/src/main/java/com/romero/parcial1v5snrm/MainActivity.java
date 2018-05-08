@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
     public void eraseFavourite(String name) {
         int counter=0;
         for (Contacts contacts : favorites){
-            if (contacts.getName()== name){
+            if (contacts.getName().equals(name)){
                 break;
             }
 
@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
     private void requestStoragePermission(){
         if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_CONTACTS)){
             new AlertDialog.Builder(this)
-                    .setTitle("Permission needed")
+                    .setTitle(R.string.p_needed)
                     .setMessage("This permission is needed to read your contacts")
                     .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                         @Override
@@ -251,10 +251,10 @@ public class MainActivity extends AppCompatActivity {
                 fillContacts();
                 adapter =new ContactsAdapter(contacts,this);
                 recyclerView.setAdapter(adapter);
-                Toast.makeText(this, "Permission GRANTED", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.granted, Toast.LENGTH_SHORT).show();
 
             } else {
-                Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.denied, Toast.LENGTH_SHORT).show();
             }
         }
     }

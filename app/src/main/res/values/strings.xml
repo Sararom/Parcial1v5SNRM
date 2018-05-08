@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">Contacts Administrator</string>
+    <string name="information_add_title">Add new contact information</string>
+    <string name="description_add_pp">contact pp</string>
+    <string name="contact_name_add">Contact Name</string>
+    <string name="contact_phone_add">Contact Phone</string>
+    <string name="contacts_btn_main">Contacts</string>
+    <string name="favorites_btn_main">Favorites</string>
+    <string name="search_btn_main">Search</string>
+    <string name="contact_name_info_dialog">Contact Name</string>
+    <string name="phone_number_info_dialog">Phone Number</string>
+    <string name="share_btn_img_desc">Share_btn</string>
+    <string name="phone_btn_desc">phone btn</string>
+    <string name="pp_img_desc">pp desc</string>
+    <string name="add_btn">Add</string>
+    <string name="pp_default_dsc">pp_default</string>
+    <string name="contact_name_rv">Contact Name</string>
+    <string name="phone_number_rv">Phone Number</string>
+    <string name="like_btn_rv">like btn</string>
+    <string name="call_btn_dsc">call btn dsc</string>
+    <string name="granted">Permission GRANTED</string>
+    <string name="denied">Permission DENIED</string>
+    <string name="p_needed">Permission needed</string>
 </resources>
